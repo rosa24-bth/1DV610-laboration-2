@@ -51,4 +51,14 @@ export class ShoppingCart {
 
     return false;
   }
+
+  getSubtotal() {
+    let subtotal = 0;
+
+    for (const item of this.items) {
+      subtotal += item.getTotalPrice();
+    }
+
+    return subtotal;
+  }
 }

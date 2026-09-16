@@ -28,4 +28,8 @@ export class CartItem {
   decreaseQuantity(quantity) {
     this.quantity -= quantity;
   }
+
+  getTotalPrice() {
+    return this.price * this.quantity;
+  }
 }

@@ -65,3 +65,22 @@ test("checks if an item is in the cart", () => {
   assert.equal(cart.hasItem("Rooibos tea"), true);
   assert.equal(cart.hasItem("Green tea"), false);
 });
+
+test("calculates the total price of an item", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+
+  const item = cart.getItem("Rooibos tea");
+
+  assert.equal(item.getTotalPrice(), 120);
+});
+
+test("calculates the cart subtotal", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.addItem("Green tea", 50, 1);
+
+  assert.equal(cart.getSubtotal(), 170);
+});
