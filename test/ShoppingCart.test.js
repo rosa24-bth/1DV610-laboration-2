@@ -20,3 +20,15 @@ test("changes the quantity of an item", () => {
 
   assert.equal(item.getQuantity(), 3);
 });
+
+test("increases quantity when adding the same item again", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.addItem("Rooibos tea", 60, 1);
+
+  const item = cart.getItems()[0];
+
+  assert.equal(cart.getItems().length, 1);
+  assert.equal(item.getQuantity(), 3);
+});
