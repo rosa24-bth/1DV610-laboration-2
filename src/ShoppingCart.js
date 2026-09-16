@@ -28,7 +28,27 @@ export class ShoppingCart {
     return false;
   }
 
+  getItem(name) {
+    for (const item of this.items) {
+      if (item.getName() === name) {
+        return item;
+      }
+    }
+
+    return null;
+  }
+
   getItems() {
     return this.items;
+  }
+
+  hasItem(name) {
+    for (const item of this.items) {
+      if (item.getName() === name) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
