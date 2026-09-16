@@ -32,3 +32,15 @@ test("increases quantity when adding the same item again", () => {
   assert.equal(cart.getItems().length, 1);
   assert.equal(item.getQuantity(), 3);
 });
+
+test("removes an item from the cart", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.addItem("Green tea", 50, 1);
+
+  cart.removeItem("Rooibos tea");
+
+  assert.equal(cart.getItems().length, 1);
+  assert.equal(cart.getItems()[0].getName(), "Green tea");
+});
