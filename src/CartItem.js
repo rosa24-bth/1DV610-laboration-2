@@ -16,4 +16,16 @@ export class CartItem {
   getQuantity() {
     return this.quantity;
   }
+
+  setQuantity(quantity) {
+    this.quantity = quantity;
+  }
+
+  increaseQuantity(quantity) {
+    this.quantity += quantity;
+  }
+
+  decreaseQuantity(quantity) {
+    this.quantity -= quantity;
+  }
 }
