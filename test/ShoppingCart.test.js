@@ -84,3 +84,21 @@ test("calculates the cart subtotal", () => {
 
   assert.equal(cart.getSubtotal(), 170);
 });
+
+test("counts the number of products in the cart", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.addItem("Green tea", 50, 3);
+
+  assert.equal(cart.getNumberOfProducts(), 2);
+});
+
+test("counts the total number of items in the cart", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.addItem("Green tea", 50, 3);
+
+  assert.equal(cart.getTotalItems(), 5);
+});

@@ -52,6 +52,20 @@ export class ShoppingCart {
     return false;
   }
 
+  getNumberOfProducts() {
+    return this.items.length;
+  }
+
+  getTotalItems() {
+    let totalItems = 0;
+
+    for (const item of this.items) {
+      totalItems += item.getQuantity();
+    }
+
+    return totalItems;
+  }
+
   getSubtotal() {
     let subtotal = 0;
 
