@@ -40,6 +40,7 @@ export class CartItem {
       return false;
     }
 
+    // An item should always have a quantity of at least one
     if (this.quantity - quantity <= 0) {
       return false;
     }

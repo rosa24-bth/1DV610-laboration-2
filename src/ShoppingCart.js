@@ -19,6 +19,7 @@ export class ShoppingCart {
       return false;
     }
 
+    // Increase the quantity instead of adding the same product twice
     for (const item of this.items) {
       if (item.getName() === name) {
         item.increaseQuantity(quantity);
@@ -157,6 +158,8 @@ export class ShoppingCart {
 
   getTotalPrice() {
     const subtotal = this.getSubtotal();
+
+    // The discount is stored as a percentage
     const discountAmount = subtotal * (this.discount / 100);
 
     return subtotal - discountAmount;
@@ -171,6 +174,7 @@ export class ShoppingCart {
   }
 
   clearCart() {
+    // A new empty cart should not keep the previous discount
     this.items = [];
     this.discount = 0;
   }
