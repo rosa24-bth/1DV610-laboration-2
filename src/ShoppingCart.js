@@ -42,6 +42,50 @@ export class ShoppingCart {
     return false;
   }
 
+  updateQuantity(name, quantity) {
+    if (quantity <= 0) {
+      return false;
+    }
+
+    for (const item of this.items) {
+      if (item.getName() === name) {
+        item.setQuantity(quantity);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  increaseItemQuantity(name, quantity = 1) {
+    if (quantity <= 0) {
+      return false;
+    }
+
+    for (const item of this.items) {
+      if (item.getName() === name) {
+        item.increaseQuantity(quantity);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  decreaseItemQuantity(name, quantity = 1) {
+    if (quantity <= 0) {
+      return false;
+    }
+
+    for (const item of this.items) {
+      if (item.getName() === name) {
+        return item.decreaseQuantity(quantity);
+      }
+    }
+
+    return false;
+  }
+
   getItem(name) {
     for (const item of this.items) {
       if (item.getName() === name) {

@@ -157,3 +157,30 @@ test("does not allow a discount over 100 percent", () => {
   assert.equal(result, false);
   assert.equal(cart.getDiscount(), 0);
 });
+
+test("updates the quantity of an item", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.updateQuantity("Rooibos tea", 5);
+
+  assert.equal(cart.getItem("Rooibos tea").getQuantity(), 5);
+});
+
+test("increases the quantity of an item", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.increaseItemQuantity("Rooibos tea", 2);
+
+  assert.equal(cart.getItem("Rooibos tea").getQuantity(), 4);
+});
+
+test("decreases the quantity of an item", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 4);
+  cart.decreaseItemQuantity("Rooibos tea", 2);
+
+  assert.equal(cart.getItem("Rooibos tea").getQuantity(), 2);
+});
