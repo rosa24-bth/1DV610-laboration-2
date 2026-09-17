@@ -127,3 +127,33 @@ test("removes the discount from the cart", () => {
   assert.equal(cart.getDiscount(), 0);
   assert.equal(cart.getTotalPrice(), 170);
 });
+
+test("does not add an item with an invalid price", () => {
+  const cart = new ShoppingCart();
+
+  const result = cart.addItem("Rooibos tea", -60, 2);
+
+  assert.equal(result, false);
+  assert.equal(cart.getItems().length, 0);
+});
+
+test("does not allow an invalid quantity", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+
+  const item = cart.getItem("Rooibos tea");
+  const result = item.setQuantity(0);
+
+  assert.equal(result, false);
+  assert.equal(item.getQuantity(), 2);
+});
+
+test("does not allow a discount over 100 percent", () => {
+  const cart = new ShoppingCart();
+
+  const result = cart.applyDiscount(150);
+
+  assert.equal(result, false);
+  assert.equal(cart.getDiscount(), 0);
+});

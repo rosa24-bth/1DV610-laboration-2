@@ -18,15 +18,34 @@ export class CartItem {
   }
 
   setQuantity(quantity) {
+    if (quantity <= 0) {
+      return false;
+    }
+
     this.quantity = quantity;
+    return true;
   }
 
   increaseQuantity(quantity) {
+    if (quantity <= 0) {
+      return false;
+    }
+
     this.quantity += quantity;
+    return true;
   }
 
   decreaseQuantity(quantity) {
+    if (quantity <= 0) {
+      return false;
+    }
+
+    if (this.quantity - quantity <= 0) {
+      return false;
+    }
+
     this.quantity -= quantity;
+    return true;
   }
 
   getTotalPrice() {

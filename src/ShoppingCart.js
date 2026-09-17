@@ -7,15 +7,28 @@ export class ShoppingCart {
   }
 
   addItem(name, price, quantity) {
+    if (!name) {
+      return false;
+    }
+
+    if (price <= 0) {
+      return false;
+    }
+
+    if (quantity <= 0) {
+      return false;
+    }
+
     for (const item of this.items) {
       if (item.getName() === name) {
         item.increaseQuantity(quantity);
-        return;
+        return true;
       }
     }
 
     const item = new CartItem(name, price, quantity);
     this.items.push(item);
+    return true;
   }
 
   removeItem(name) {
@@ -78,7 +91,16 @@ export class ShoppingCart {
   }
 
   applyDiscount(percent) {
+    if (percent < 0) {
+      return false;
+    }
+
+    if (percent > 100) {
+      return false;
+    }
+
     this.discount = percent;
+    return true;
   }
 
   removeDiscount() {
