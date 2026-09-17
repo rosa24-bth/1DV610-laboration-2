@@ -184,3 +184,27 @@ test("decreases the quantity of an item", () => {
 
   assert.equal(cart.getItem("Rooibos tea").getQuantity(), 2);
 });
+
+test("checks if the cart is empty", () => {
+  const cart = new ShoppingCart();
+
+  assert.equal(cart.isEmpty(), true);
+
+  cart.addItem("Rooibos tea", 60, 2);
+
+  assert.equal(cart.isEmpty(), false);
+});
+
+test("clears the cart", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.addItem("Green tea", 50, 1);
+  cart.applyDiscount(10);
+
+  cart.clearCart();
+
+  assert.equal(cart.getItems().length, 0);
+  assert.equal(cart.getDiscount(), 0);
+  assert.equal(cart.isEmpty(), true);
+});

@@ -161,4 +161,17 @@ export class ShoppingCart {
 
     return subtotal - discountAmount;
   }
+
+  isEmpty() {
+    if (this.items.length === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  clearCart() {
+    this.items = [];
+    this.discount = 0;
+  }
 }
