@@ -3,6 +3,7 @@ import { CartItem } from "./CartItem.js";
 export class ShoppingCart {
   constructor() {
     this.items = [];
+    this.discount = 0;
   }
 
   addItem(name, price, quantity) {
@@ -74,5 +75,24 @@ export class ShoppingCart {
     }
 
     return subtotal;
+  }
+
+  applyDiscount(percent) {
+    this.discount = percent;
+  }
+
+  removeDiscount() {
+    this.discount = 0;
+  }
+
+  getDiscount() {
+    return this.discount;
+  }
+
+  getTotalPrice() {
+    const subtotal = this.getSubtotal();
+    const discountAmount = subtotal * (this.discount / 100);
+
+    return subtotal - discountAmount;
   }
 }

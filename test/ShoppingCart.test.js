@@ -102,3 +102,28 @@ test("counts the total number of items in the cart", () => {
 
   assert.equal(cart.getTotalItems(), 5);
 });
+
+test("applies a discount to the cart", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.addItem("Green tea", 50, 1);
+
+  cart.applyDiscount(10);
+
+  assert.equal(cart.getDiscount(), 10);
+  assert.equal(cart.getTotalPrice(), 153);
+});
+
+test("removes the discount from the cart", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.addItem("Green tea", 50, 1);
+
+  cart.applyDiscount(10);
+  cart.removeDiscount();
+
+  assert.equal(cart.getDiscount(), 0);
+  assert.equal(cart.getTotalPrice(), 170);
+});
