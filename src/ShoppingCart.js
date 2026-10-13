@@ -158,11 +158,7 @@ export class ShoppingCart {
   }
 
   isEmpty() {
-    if (this.items.length === 0) {
-      return true;
-    }
-
-    return false;
+    return this.items.length === 0;
   }
 
   clearCart() {
