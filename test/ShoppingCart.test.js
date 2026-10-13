@@ -208,3 +208,75 @@ test("clears the cart", () => {
   assert.equal(cart.getDiscount(), 0);
   assert.equal(cart.isEmpty(), true);
 });
+
+test("returns null when a product does not exist", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+
+  assert.equal(cart.getItem("Green tea"), null);
+});
+
+test("rejects quantity changes for a missing product without changing the cart", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+
+  assert.equal(cart.updateQuantity("Green tea", 3), false);
+  assert.equal(cart.increaseItemQuantity("Green tea", 1), false);
+  assert.equal(cart.decreaseItemQuantity("Green tea", 1), false);
+  assert.equal(cart.getNumberOfProducts(), 1);
+  assert.equal(cart.getTotalItems(), 2);
+  assert.equal(cart.getTotalPrice(), 120);
+});
+
+test("increases quantity by one when no quantity is supplied", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+
+  assert.equal(cart.increaseItemQuantity("Rooibos tea"), true);
+  assert.equal(cart.getItem("Rooibos tea").getQuantity(), 3);
+});
+
+test("decreases quantity by one when no quantity is supplied", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+
+  assert.equal(cart.decreaseItemQuantity("Rooibos tea"), true);
+  assert.equal(cart.getItem("Rooibos tea").getQuantity(), 1);
+});
+
+test("rejects decreases to zero or below without removing the product", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+
+  assert.equal(cart.decreaseItemQuantity("Rooibos tea", 2), false);
+  assert.equal(cart.getItem("Rooibos tea").getQuantity(), 2);
+  assert.equal(cart.decreaseItemQuantity("Rooibos tea", 3), false);
+  assert.equal(cart.getItem("Rooibos tea").getQuantity(), 2);
+  assert.equal(cart.getNumberOfProducts(), 1);
+});
+
+test("accepts zero percent discount and restores the subtotal", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.applyDiscount(10);
+
+  assert.equal(cart.applyDiscount(0), true);
+  assert.equal(cart.getDiscount(), 0);
+  assert.equal(cart.getTotalPrice(), 120);
+});
+
+test("accepts 100 percent discount and makes the total price zero", () => {
+  const cart = new ShoppingCart();
+
+  cart.addItem("Rooibos tea", 60, 2);
+
+  assert.equal(cart.applyDiscount(100), true);
+  assert.equal(cart.getDiscount(), 100);
+  assert.equal(cart.getTotalPrice(), 0);
+});

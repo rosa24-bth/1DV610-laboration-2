@@ -6,6 +6,8 @@ I choose to test the module with automated unit tests using Node.js built-in tes
 
 The tests are located in `test/ShoppingCart.test.js`.
 
+During the module improvements for Laboration 3, the original 20 tests were kept and seven tests were added for missing products, default quantities, rejected decreases, and discount boundaries.
+
 To run the tests make sure to install Node.js and then run the following command:
 
 ```bash
@@ -38,5 +40,12 @@ This runs all tests and shows if results passed or failed.
 | Decreasing the quantity of an item     | Used `decreaseItemQuantity()` and checked that the quantity decreased correctly.                           | ✅ Passed |
 | Checking if the cart is empty          | Checked a new cart and then checked it again after adding a product.                                       | ✅ Passed |
 | Clearing the cart                      | Added products and a discount, cleared the cart and checked that the products and discount were removed.   | ✅ Passed |
+| Getting a missing product | Looked up a product that was not in the cart and checked that `getItem()` returned `null`. | ✅ Passed |
+| Changing the quantity of a missing product | Tried updating, increasing and decreasing a missing product and checked that each operation returned `false` while the cart stayed unchanged. | ✅ Passed |
+| Increasing by the default quantity | Increased a product without supplying a quantity and checked that its quantity changed from 2 to 3. | ✅ Passed |
+| Decreasing by the default quantity | Decreased a product without supplying a quantity and checked that its quantity changed from 2 to 1. | ✅ Passed |
+| Decreasing to zero or below | Tried decreasing a quantity of 2 by 2 and by 3, and checked that both operations returned `false` while the product remained with quantity 2. | ✅ Passed |
+| Applying zero percent discount | Replaced a 10% discount with 0% and checked that the operation succeeded and the total returned to 120. | ✅ Passed |
+| Applying 100 percent discount | Applied 100% discount and checked that the operation succeeded and the total became 0. | ✅ Passed |
 
-All 20 automated tests passed.
+All 27 automated tests passed on 2026-10-13.
