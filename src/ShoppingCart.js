@@ -97,6 +97,9 @@ export class ShoppingCart {
     return null;
   }
 
+  /**
+   * Returns the cart's own array. Changes to this array also affect the cart.
+   */
   getItems() {
     return this.items;
   }
@@ -159,7 +162,6 @@ export class ShoppingCart {
   getTotalPrice() {
     const subtotal = this.getSubtotal();
 
-    // The discount is stored as a percentage
     const discountAmount = subtotal * (this.discount / 100);
 
     return subtotal - discountAmount;

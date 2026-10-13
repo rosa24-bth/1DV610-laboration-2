@@ -40,7 +40,7 @@ export class CartItem {
       return false;
     }
 
-    // An item should always have a quantity of at least one
+    // Keep the quantity positive; removing a cart item is a separate operation.
     if (this.quantity - quantity <= 0) {
       return false;
     }
