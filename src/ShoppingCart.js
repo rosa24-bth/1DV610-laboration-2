@@ -19,12 +19,11 @@ export class ShoppingCart {
       return false;
     }
 
-    // Increase the quantity instead of adding the same product twice
-    for (const item of this.items) {
-      if (item.getName() === name) {
-        item.increaseQuantity(quantity);
-        return true;
-      }
+    const existingItem = this.getItem(name);
+    if (existingItem) {
+      // Increase the quantity instead of adding the same product twice
+      existingItem.increaseQuantity(quantity);
+      return true;
     }
 
     const item = new CartItem(name, price, quantity);
@@ -48,14 +47,13 @@ export class ShoppingCart {
       return false;
     }
 
-    for (const item of this.items) {
-      if (item.getName() === name) {
-        item.setQuantity(quantity);
-        return true;
-      }
+    const item = this.getItem(name);
+    if (!item) {
+      return false;
     }
 
-    return false;
+    item.setQuantity(quantity);
+    return true;
   }
 
   increaseItemQuantity(name, quantity = 1) {
@@ -63,14 +61,13 @@ export class ShoppingCart {
       return false;
     }
 
-    for (const item of this.items) {
-      if (item.getName() === name) {
-        item.increaseQuantity(quantity);
-        return true;
-      }
+    const item = this.getItem(name);
+    if (!item) {
+      return false;
     }
 
-    return false;
+    item.increaseQuantity(quantity);
+    return true;
   }
 
   decreaseItemQuantity(name, quantity = 1) {
@@ -78,13 +75,12 @@ export class ShoppingCart {
       return false;
     }
 
-    for (const item of this.items) {
-      if (item.getName() === name) {
-        return item.decreaseQuantity(quantity);
-      }
+    const item = this.getItem(name);
+    if (!item) {
+      return false;
     }
 
-    return false;
+    return item.decreaseQuantity(quantity);
   }
 
   getItem(name) {
@@ -105,13 +101,7 @@ export class ShoppingCart {
   }
 
   hasItem(name) {
-    for (const item of this.items) {
-      if (item.getName() === name) {
-        return true;
-      }
-    }
-
-    return false;
+    return this.getItem(name) !== null;
   }
 
   getNumberOfProducts() {
