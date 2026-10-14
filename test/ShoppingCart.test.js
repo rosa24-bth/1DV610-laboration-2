@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { ShoppingCart } from "../index.js";
+import { ShoppingCart, CartItem } from "../index.js";
 
 test("adds an item to the cart", () => {
   const cart = new ShoppingCart();
@@ -279,4 +279,102 @@ test("accepts 100 percent discount and makes the total price zero", () => {
   assert.equal(cart.applyDiscount(100), true);
   assert.equal(cart.getDiscount(), 100);
   assert.equal(cart.getTotalPrice(), 0);
+});
+
+test("rejects invalid prices without adding a product", () => {
+  const cart = new ShoppingCart();
+  const invalidPrices = [undefined, null, NaN, Infinity, -Infinity, "60", 0, -1];
+
+  for (const price of invalidPrices) {
+    assert.equal(cart.addItem("Rooibos tea", price, 2), false);
+    assert.equal(cart.isEmpty(), true);
+    assert.equal(cart.getTotalPrice(), 0);
+  }
+});
+
+test("rejects invalid quantities without adding a product", () => {
+  const cart = new ShoppingCart();
+  const invalidQuantities = [undefined, null, NaN, Infinity, -Infinity, "2", 0, -1];
+
+  for (const quantity of invalidQuantities) {
+    assert.equal(cart.addItem("Rooibos tea", 60, quantity), false);
+    assert.equal(cart.isEmpty(), true);
+    assert.equal(cart.getTotalPrice(), 0);
+  }
+});
+
+test("rejects invalid quantity updates without changing the product", () => {
+  const cart = new ShoppingCart();
+  const invalidQuantities = [undefined, null, NaN, Infinity, -Infinity, "2", 0, -1];
+  cart.addItem("Rooibos tea", 60, 2);
+
+  for (const quantity of invalidQuantities) {
+    assert.equal(cart.updateQuantity("Rooibos tea", quantity), false);
+    assert.equal(cart.getItem("Rooibos tea").getQuantity(), 2);
+    assert.equal(cart.getTotalPrice(), 120);
+  }
+});
+
+test("rejects invalid increases without changing the product", () => {
+  const cart = new ShoppingCart();
+  const invalidQuantities = [null, NaN, Infinity, -Infinity, "2", 0, -1];
+  cart.addItem("Rooibos tea", 60, 2);
+
+  for (const quantity of invalidQuantities) {
+    assert.equal(cart.increaseItemQuantity("Rooibos tea", quantity), false);
+    assert.equal(cart.getItem("Rooibos tea").getQuantity(), 2);
+    assert.equal(cart.getTotalPrice(), 120);
+  }
+});
+
+test("rejects invalid decreases without changing the product", () => {
+  const cart = new ShoppingCart();
+  const invalidQuantities = [null, NaN, Infinity, -Infinity, "2", 0, -1];
+  cart.addItem("Rooibos tea", 60, 2);
+
+  for (const quantity of invalidQuantities) {
+    assert.equal(cart.decreaseItemQuantity("Rooibos tea", quantity), false);
+    assert.equal(cart.getItem("Rooibos tea").getQuantity(), 2);
+    assert.equal(cart.getTotalPrice(), 120);
+  }
+});
+
+test("CartItem rejects invalid quantity changes", () => {
+  const item = new CartItem("Rooibos tea", 60, 2);
+  const invalidQuantities = [undefined, null, NaN, Infinity, -Infinity, "2", 0, -1];
+
+  for (const quantity of invalidQuantities) {
+    assert.equal(item.setQuantity(quantity), false);
+    assert.equal(item.getQuantity(), 2);
+    assert.equal(item.increaseQuantity(quantity), false);
+    assert.equal(item.getQuantity(), 2);
+    assert.equal(item.decreaseQuantity(quantity), false);
+    assert.equal(item.getQuantity(), 2);
+    assert.equal(item.getTotalPrice(), 120);
+  }
+});
+
+test("rejects invalid discounts without changing the current discount", () => {
+  const cart = new ShoppingCart();
+  const invalidDiscounts = [undefined, null, NaN, Infinity, -Infinity, "10", -1, 101];
+  cart.addItem("Rooibos tea", 60, 2);
+  cart.applyDiscount(10);
+
+  for (const percent of invalidDiscounts) {
+    assert.equal(cart.applyDiscount(percent), false);
+    assert.equal(cart.getDiscount(), 10);
+    assert.equal(cart.getTotalPrice(), 108);
+  }
+});
+
+test("continues to accept decimal prices, quantities and discounts", () => {
+  const cart = new ShoppingCart();
+
+  assert.equal(cart.addItem("Rooibos tea", 12.5, 1.5), true);
+  assert.equal(cart.updateQuantity("Rooibos tea", 2.5), true);
+  assert.equal(cart.increaseItemQuantity("Rooibos tea", 0.5), true);
+  assert.equal(cart.decreaseItemQuantity("Rooibos tea", 0.5), true);
+  assert.equal(cart.getItem("Rooibos tea").getQuantity(), 2.5);
+  assert.equal(cart.applyDiscount(2.5), true);
+  assert.equal(cart.getTotalPrice(), 30.46875);
 });

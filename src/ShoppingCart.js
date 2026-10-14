@@ -9,21 +9,21 @@ export class ShoppingCart {
   /**
    * Adding the same product name increases its quantity and keeps its original price.
    * @param {string} name - Product name.
-   * @param {number} price - Positive price per item.
-   * @param {number} quantity - Positive quantity to add.
+   * @param {number} price - Positive, finite price per item.
+   * @param {number} quantity - Positive, finite quantity to add.
    * @returns {boolean} True on success and false for an empty name or
-   * non-positive price or quantity.
+   * invalid price or quantity.
    */
   addItem(name, price, quantity) {
     if (!name) {
       return false;
     }
 
-    if (price <= 0) {
+    if (!Number.isFinite(price) || price <= 0) {
       return false;
     }
 
-    if (quantity <= 0) {
+    if (!Number.isFinite(quantity) || quantity <= 0) {
       return false;
     }
 
@@ -50,7 +50,7 @@ export class ShoppingCart {
   }
 
   updateQuantity(name, quantity) {
-    if (quantity <= 0) {
+    if (!Number.isFinite(quantity) || quantity <= 0) {
       return false;
     }
 
@@ -64,7 +64,7 @@ export class ShoppingCart {
   }
 
   increaseItemQuantity(name, quantity = 1) {
-    if (quantity <= 0) {
+    if (!Number.isFinite(quantity) || quantity <= 0) {
       return false;
     }
 
@@ -80,11 +80,11 @@ export class ShoppingCart {
   /**
    * Decreases to zero or below are rejected. Use removeItem() to remove a product.
    * @param {string} name - Product name.
-   * @param {number} [quantity=1] - Positive quantity to subtract.
+   * @param {number} [quantity=1] - Positive, finite quantity to subtract.
    * @returns {boolean} Whether the quantity was decreased.
    */
   decreaseItemQuantity(name, quantity = 1) {
-    if (quantity <= 0) {
+    if (!Number.isFinite(quantity) || quantity <= 0) {
       return false;
     }
 
@@ -147,11 +147,7 @@ export class ShoppingCart {
   }
 
   applyDiscount(percent) {
-    if (percent < 0) {
-      return false;
-    }
-
-    if (percent > 100) {
+    if (!Number.isFinite(percent) || percent < 0 || percent > 100) {
       return false;
     }
 

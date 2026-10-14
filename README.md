@@ -57,6 +57,10 @@ console.log(cart.getTotalPrice());
 
 If a product with the same name is added more than once, its quantity is increased instead of creating another cart item.
 
+Adding products, changing quantities and applying discounts require numbers.
+Missing required values, `NaN`, `Infinity` and text such as `"2"` are rejected with `false`.
+Prices and quantities must be greater than zero, and discounts must be between 0 and 100.
+
 ## Public methods
 
 ### ShoppingCart

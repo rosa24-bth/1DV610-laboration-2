@@ -6,7 +6,7 @@ I choose to test the module with automated unit tests using Node.js built-in tes
 
 The tests are located in `test/ShoppingCart.test.js`.
 
-During the module improvements for Laboration 3, the original 20 tests were kept and seven tests were added for missing products, default quantities, rejected decreases, and discount boundaries.
+The tests cover normal cart use, missing products, default quantities, discount boundaries and invalid number values.
 
 To run the tests make sure to install Node.js and then run the following command:
 
@@ -47,5 +47,13 @@ This runs all tests and shows if results passed or failed.
 | Decreasing to zero or below | Tried decreasing a quantity of 2 by 2 and by 3, and checked that both operations returned `false` while the product remained with quantity 2. | ✅ Passed |
 | Applying zero percent discount | Replaced a 10% discount with 0% and checked that the operation succeeded and the total returned to 120. | ✅ Passed |
 | Applying 100 percent discount | Applied 100% discount and checked that the operation succeeded and the total became 0. | ✅ Passed |
+| Adding a product with an invalid price | Tried missing values, null, NaN, infinite values, text, zero and negative prices. Checked that each attempt returned `false` and the cart stayed empty. | ✅ Passed |
+| Adding a product with an invalid quantity | Tried missing values, null, NaN, infinite values, text, zero and negative quantities. Checked that each attempt returned `false` and the cart stayed empty. | ✅ Passed |
+| Updating with an invalid quantity | Tried invalid quantities and checked that `updateQuantity()` returned `false` while the quantity and total price stayed unchanged. | ✅ Passed |
+| Increasing by an invalid quantity | Tried null, NaN, infinite values, text, zero and negative quantities. Checked that each increase returned `false` and the product stayed unchanged. | ✅ Passed |
+| Decreasing by an invalid quantity | Tried null, NaN, infinite values, text, zero and negative quantities. Checked that each decrease returned `false` and the product stayed unchanged. | ✅ Passed |
+| Changing a CartItem with an invalid quantity | Called `setQuantity()`, `increaseQuantity()` and `decreaseQuantity()` with invalid values. Checked that each returned `false` and the quantity and price stayed unchanged. | ✅ Passed |
+| Applying an invalid discount value | Tried missing values, null, NaN, infinite values, text, -1 and 101. Checked that the existing 10% discount and total price stayed unchanged. | ✅ Passed |
+| Using decimal values | Used a price of 12.5, changed the quantity to 2.5, increased and decreased it by 0.5, and applied 2.5% discount. Checked that all operations succeeded and the total was 30.46875. | ✅ Passed |
 
-All 27 automated tests passed on 2026-10-13.
+All 35 automated tests passed on 2026-10-14.
